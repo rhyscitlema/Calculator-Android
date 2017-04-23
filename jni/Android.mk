@@ -17,19 +17,41 @@ FOLDER := ../../
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := mfet_jni
+LOCAL_MODULE := mfet_jni
+
+LOCAL_CFLAGS += -Wall -std=c99
 
 LOCAL_SRC_FILES := jni_mfet.c
-LOCAL_SRC_FILES += $(FOLDER)/lib_std/lib_std.c
-LOCAL_SRC_FILES += $(FOLDER)/libmfet/libmfet.c
-LOCAL_SRC_FILES += $(FOLDER)/librodt/librodt.c
-LOCAL_SRC_FILES += $(FOLDER)/algorithms/list.c
-LOCAL_SRC_FILES += $(FOLDER)/algorithms/avl.c
 
-LOCAL_C_INCLUDES := $(FOLDER)/lib_std/
-LOCAL_C_INCLUDES += $(FOLDER)/libmfet/
-LOCAL_C_INCLUDES += $(FOLDER)/librodt/
-LOCAL_C_INCLUDES += $(FOLDER)/algorithms/
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_math.c
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_value.c
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_stdio.c
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_strfun.c
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_string.c
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_malloc.c
+LOCAL_SRC_FILES += $(FOLDER)lib_std/_texts.c
+
+LOCAL_SRC_FILES += $(FOLDER)libmfet/mfet.c
+LOCAL_SRC_FILES += $(FOLDER)libmfet/component.c
+LOCAL_SRC_FILES += $(FOLDER)libmfet/expression.c
+LOCAL_SRC_FILES += $(FOLDER)libmfet/structures.c
+LOCAL_SRC_FILES += $(FOLDER)libmfet/operations.c
+
+LOCAL_SRC_FILES += $(FOLDER)librodt/mouse.c
+LOCAL_SRC_FILES += $(FOLDER)librodt/timer.c
+LOCAL_SRC_FILES += $(FOLDER)librodt/tools.c
+LOCAL_SRC_FILES += $(FOLDER)librodt/userinterface_.c
+LOCAL_SRC_FILES += $(FOLDER)librodt/outsider.c
+
+LOCAL_SRC_FILES += $(FOLDER)algorithms/avl.c
+LOCAL_SRC_FILES += $(FOLDER)algorithms/list.c
+LOCAL_SRC_FILES += $(FOLDER)algorithms/heap.c
+LOCAL_SRC_FILES += $(FOLDER)algorithms/graph.c
+
+LOCAL_C_INCLUDES := $(FOLDER)lib_std/
+LOCAL_C_INCLUDES += $(FOLDER)libmfet/
+LOCAL_C_INCLUDES += $(FOLDER)librodt/
+LOCAL_C_INCLUDES += $(FOLDER)algorithms/
 
 include $(BUILD_SHARED_LIBRARY)
 

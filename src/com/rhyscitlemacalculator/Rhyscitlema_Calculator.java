@@ -31,12 +31,12 @@ import android.widget.TextView.OnEditorActionListener;
 public class Rhyscitlema_Calculator extends Activity
 {
     // the order below MUST follow that of userinterface.h
-    public static final int UI_main_text       = 0;
-    public static final int UI_mesg_text       = 1;
-    public static final int UI_path_text       = 2;
-    public static final int UI_time_text       = 3;
-    public static final int UI_pause_button    = 4;
-    public static final int UI_forward_button  = 5;
+    public static final int UI_MAIN_TEXT       = 0;
+    public static final int UI_MESG_TEXT       = 1;
+    public static final int UI_PATH_TEXT       = 2;
+    public static final int UI_TIME_TEXT       = 3;
+    public static final int UI_PAUSE_BUTTON    = 4;
+    public static final int UI_FORWARD_BUTTON  = 5;
 
     private static EditText main_text;
     private static EditText mesg_text;
@@ -78,8 +78,9 @@ public class Rhyscitlema_Calculator extends Activity
             }
         });
 
-        context = this;
+        mesg_text.setText("User guide at:\r\nhttp://rhyscitlema.com/applications/mfet-calculator");
         main_text.requestFocus();
+        context = this;
         MFET.initialise();
     }
 
@@ -116,18 +117,18 @@ public class Rhyscitlema_Calculator extends Activity
 
     public static String ui_get_text (int ui_item) {
         switch(ui_item) {
-            case UI_main_text: return main_text.getText().toString();
-            case UI_time_text: return time_text.getText().toString();
+            case UI_MAIN_TEXT: return main_text.getText().toString();
+            case UI_TIME_TEXT: return time_text.getText().toString();
             default: return "";
         }
     }
     public static void ui_set_text (int ui_item, String text) {
         switch(ui_item) {
-            case UI_main_text: main_text.setText(text); break;
-            case UI_mesg_text: mesg_text.setText(text); break;
-            case UI_time_text: time_text.setText(text); break;
-            case UI_pause_button: pause_button.setText(text); break;
-            case UI_forward_button: forward_button.setText(text); break;
+            case UI_MAIN_TEXT: main_text.setText(text); break;
+            case UI_MESG_TEXT: mesg_text.setText(text); break;
+            case UI_TIME_TEXT: time_text.setText(text); break;
+            case UI_PAUSE_BUTTON: pause_button.setText(text); break;
+            case UI_FORWARD_BUTTON: forward_button.setText(text); break;
         }
     }
 

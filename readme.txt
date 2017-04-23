@@ -23,11 +23,10 @@ To build the project using Linux Command Line Interface:
 
 To load to device, execute:
   <path-to-android-sdk-directory>/platform-tools/adb \
-  install -r ./bin/Rhyscitlema_MFET_Calculator-debug.apk
+  install -r ./bin/Rhyscitlema_Calculator-debug.apk
 
 
 Provided by Rhyscitlema
 @ http://rhyscitlema.com
 
 USE AT YOUR OWN RISK!
-

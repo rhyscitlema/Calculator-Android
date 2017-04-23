@@ -5,11 +5,13 @@
     (accessed 2017-06-06) http://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/functions.html
     (accessed 2017-06-06) http://www.rgagnon.com/javadetails/java-0286.html
     (accessed 2017-06-06) https://developer.android.com/studio/command-line/logcat.html
+                          <path-to-android-sdk-directory>/platform-tools/adb logcat
 */
 #include <jni.h>
 #include <_string.h>
 
 #include <mfet.h>
+#include <mouse.h>
 #include <timer.h>
 #include <tools.h>
 #include <userinterface.h>
@@ -129,7 +131,7 @@ void Java_jni_MFET_onKeyEvent ( JNIEnv* env, jobject thiz, jint key, jboolean pr
 //---- not used ----
 int  main_window_width = 0;
 int  main_window_height = 0;
-bool main_window_resize () {}
+bool main_window_resize () { return false; }
 bool file_exists_get () { return false; }
 const mchar* file_name_get () { return NULL; }
 //---- not used ----

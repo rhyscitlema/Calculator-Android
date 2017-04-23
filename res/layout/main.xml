@@ -55,7 +55,7 @@
             android:id="@+id/gui_pause_button"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text=">>"
+            android:text="\u25BA"
             android:onClick="onButton_Pause"
             />
         <Button
