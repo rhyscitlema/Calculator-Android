@@ -13,9 +13,7 @@ public class RFET
 
     public static native long parse (long rfet,
                                      String rfet_text,
-                                     String source_name,
-                                     int start_line,
-                                     int start_column);
+                                     String source_name);
 
     public static native boolean evaluate (long rfet, double argument);
     public static native boolean commitReplacement (long rfet);

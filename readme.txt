@@ -3,7 +3,8 @@ Software name:
     Rhyscitlema Calculator
 
 Software description:
-    Evaluate any mathematical expression.
+    Evaluate complex mathematical
+    expressions using the RFET language.
 
 
 To build the project using Linux Command Line Interface:
@@ -12,7 +13,8 @@ To build the project using Linux Command Line Interface:
    http://rhyscitlema.com/applications/on-android-os
 
 2- Open the Command Line Interface Terminal
-3- Go to ./jni folder to get the "rfet_jni"
+3- Go to ./jni folder to get "librfet_jni".
+   Refer to the readme.txt file there.
 
 4- Change directory to this directory
 5- Go into file 'local.properties' and set

@@ -19,7 +19,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := rfet_jni
 
-LOCAL_CFLAGS += -Wall -std=c99
+LOCAL_CFLAGS += -std=c99 -Wall
 
 LOCAL_SRC_FILES := jni_rfet.c
 

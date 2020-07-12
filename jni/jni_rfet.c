@@ -16,28 +16,37 @@
 #include <tools.h>
 #include <userinterface.h>
 
+#define stack stackArray()
 
 //--------------------------------------------------------------------------------------------
 
-static wchar* buffer =  NULL;
+static wchar* buffer = NULL;
 
-void userinterface_clean () { wchar_free(buffer); buffer=NULL; }
+void userinterface_clean () { buffer = str2_free(buffer); }
 
 
 static const wchar* fromJString (JNIEnv* env, jstring jstr)
 {
     if(jstr==NULL) return NULL;
-    const jchar* nativeString = (*env)->GetStringChars(env, jstr, NULL);
-    long length = (*env)->GetStringLength(env, jstr); // important step
-    astrcpy22S(&buffer, (const wchar*)nativeString, length);
-    (*env)->ReleaseStringChars(env, jstr, nativeString);
+    const jchar* str = (*env)->GetStringChars(env, jstr, NULL);
+    long i, len = (*env)->GetStringLength(env, jstr); // important step
+    buffer = str2_alloc(buffer, len);
+    if(buffer)
+    {   for(i=0; i<len; i++) buffer[i] = str[i];
+        buffer[len]=0;
+    }
+    (*env)->ReleaseStringChars(env, jstr, str);
     return buffer;
 }
 
 static jstring toJString (JNIEnv* env, const wchar* str)
 {
-    if(!str) str = (const wchar*)"\0\0";
-    return (*env)->NewString(env, (const jchar*)str, strlen2(str));
+    if(!str) str = L"";
+    long i, len = strlen2(str);
+    jchar jstr[len+1];
+    for(i=0; i<len; i++) jstr[i] = str[i];
+    jstr[len]=0;
+    return (*env)->NewString(env, jstr, len);
 }
 
 
@@ -70,44 +79,41 @@ jlong Java_jni_RFET_parse (
     jobject thiz,
     jlong rfet,
     jstring rfet_text,
-    jstring source_name,
-    jint start_line,
-    jint start_column )
+    jstring source_name)
 {
-    const wchar* mstr;
-
-    mstr = fromJString(env, rfet_text);
-    lchar* text=NULL; astrcpy32(&text, mstr);
-
-    mstr = fromJString(env, source_name);
-    set_line_coln_source(text, start_line, start_column, mstr);
+    const wchar* input = fromJString(env, rfet_text);
+    const wchar* source = fromJString(env, source_name);
+    Str3 text = astrcpy32(C37(NULL), input, source);
 
     RFET trfet = toRFET(rfet);
-    trfet = rfet_parse(trfet, text); text=NULL;
+    trfet = rfet_parse(stack, trfet, text); text=C37(NULL);
     return (jlong)(long)trfet;
 }
 
 
 jboolean Java_jni_RFET_evaluate ( JNIEnv* env, jobject thiz, jlong rfet, jdouble argument )
-{ return rfet_evaluate(toRFET(rfet), NULL, NULL); }
+{ return !VERROR(rfet_evaluate(stack, toRFET(rfet), NULL)); }
 
 jboolean Java_jni_RFET_commitReplacement ( JNIEnv* env, jobject thiz, jlong rfet )
-{ return rfet_commit_replacement(toRFET(rfet)); }
+{ return rfet_commit_replacement(stack, toRFET(rfet)); }
 
 jstring Java_jni_RFET_getContainerText ( JNIEnv* env, jobject thiz, jlong rfet )
-{ return toJString(env, rfet_get_container_text(toRFET(rfet))); }
+{
+    value v = rfet_get_container_text(stack, toRFET(rfet));
+    return toJString(env, getStr2(vGetPrev(v)));
+}
 
 jstring Java_jni_RFET_getResultString ( JNIEnv* env, jobject thiz, jlong rfet )
 {
-    VstToStr(mainStack(), errorMessage(), 4, -1, -1, -1);
-    return toJString(env, errorMessage());
+    value v = VstToStr(vnext(stack), PUT_NEWLINE|0, -1, -1);
+    return toJString(env, getStr2(vGetPrev(v)));
 }
 
 jstring Java_jni_RFET_getErrorMessage ( JNIEnv* env, jobject thiz )
-{ return toJString(env, errorMessage()); }
+{ return toJString(env, getMessage(vGet(stack))); }
 
 void Java_jni_RFET_remove ( JNIEnv* env, jobject thiz, jlong rfet )
-{ rfet_remove(toRFET(rfet)); }
+{ rfet_remove(stack, toRFET(rfet)); }
 
 
 //-------------------------------------------------------------------------------------------
@@ -131,9 +137,8 @@ void Java_jni_RFET_onKeyEvent ( JNIEnv* env, jobject thiz, jint key, jboolean pr
 //---- not used ----
 int  main_window_width = 0;
 int  main_window_height = 0;
-bool main_window_resize () { return false; }
-bool file_exists_get () { return false; }
-const wchar* file_name_get () { return NULL; }
+bool main_window_resize() { return false; }
+const wchar* get_file_name() { return NULL; }
 //---- not used ----
 
 

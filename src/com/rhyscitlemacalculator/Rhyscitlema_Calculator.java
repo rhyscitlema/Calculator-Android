@@ -44,7 +44,7 @@ public class Rhyscitlema_Calculator extends Activity
     private static Button pause_button;
     private static Button forward_button;
 
-    private static Context context;
+    private static Context context = null;
 
 
     /** Called when the activity is first created. */
@@ -78,10 +78,12 @@ public class Rhyscitlema_Calculator extends Activity
             }
         });
 
-        mesg_text.setText("User guide at:\r\nhttp://rhyscitlema.com/applications/rfet-calculator");
-        main_text.requestFocus();
+        //main_text.requestFocus();
+        if(context==null){
+            main_text.setText("1+1\n\n\n\n\n#{ Use online or find user guide at:\nhttp://rhyscitlema.com/applications/calculator }#\n");
+            RFET.initialise();
+        }
         context = this;
-        RFET.initialise();
     }
 
     @Override
