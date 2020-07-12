@@ -3,7 +3,7 @@
 */
 package com.rhyscitlemacalculator;
 
-import jni.MFET;
+import jni.RFET;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -73,20 +73,20 @@ public class Rhyscitlema_Calculator extends Activity
             @Override
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE)
-                    MFET.setTime();
+                    RFET.setTime();
                 return false;
             }
         });
 
-        mesg_text.setText("User guide at:\r\nhttp://rhyscitlema.com/applications/mfet-calculator");
+        mesg_text.setText("User guide at:\r\nhttp://rhyscitlema.com/applications/rfet-calculator");
         main_text.requestFocus();
         context = this;
-        MFET.initialise();
+        RFET.initialise();
     }
 
     @Override
     public void onDestroy() {
-        MFET.clean();
+        RFET.clean();
         super.onDestroy();
     }
 
@@ -101,18 +101,18 @@ public class Rhyscitlema_Calculator extends Activity
         boolean pressed = (action == KeyEvent.ACTION_DOWN);
         if(pressed || action == KeyEvent.ACTION_UP)
         {
-            int key = ANDROID_KEY_TO_MFET_KEY(event.getKeyCode(), event.isShiftPressed());
-            if(key!=0) MFET.onKeyEvent(key, pressed);
+            int key = ANDROID_KEY_TO_RFET_KEY(event.getKeyCode(), event.isShiftPressed());
+            if(key!=0) RFET.onKeyEvent(key, pressed);
         }
         return super.dispatchKeyEvent(event);
     }
 
-    public void onButton_Eval (View view) { MFET.doEval(); }
+    public void onButton_Eval (View view) { RFET.doEval(); }
     public void onButton_Lock (View view) { findViewById(R.id.gui_main_view).requestFocus(); }
-    public void onButton_Pause (View view) { MFET.doPause(); }
-    public void onButton_Forward (View view) { MFET.doForward(); }
-    public void onButton_LowerP (View view) { MFET.lowerPeriod(); }
-    public void onButton_HigherP (View view) { MFET.higherPeriod(); }
+    public void onButton_Pause (View view) { RFET.doPause(); }
+    public void onButton_Forward (View view) { RFET.doForward(); }
+    public void onButton_LowerP (View view) { RFET.lowerPeriod(); }
+    public void onButton_HigherP (View view) { RFET.higherPeriod(); }
 
 
     public static String ui_get_text (int ui_item) {
@@ -138,7 +138,7 @@ public class Rhyscitlema_Calculator extends Activity
     private static final Runnable runnable = new Runnable() {
         public void run() {
             handler.postDelayed(this, interval);
-            if(!MFET.timerHandlerDo()) timer_pause_do();
+            if(!RFET.timerHandlerDo()) timer_pause_do();
         }
     };
     public static void timer_pause_do () {
@@ -193,7 +193,7 @@ public class Rhyscitlema_Calculator extends Activity
     }
 
 
-    public static final int ANDROID_KEY_TO_MFET_KEY (int keyCode, boolean shift)
+    public static final int ANDROID_KEY_TO_RFET_KEY (int keyCode, boolean shift)
     {
         switch(keyCode)
         {

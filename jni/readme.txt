@@ -1,7 +1,7 @@
-libmfet_jni
+librfet_jni
 -----------
 
-Rhyscitlema MFET library for
+Rhyscitlema RFET library for
 the Java Native Interface.
 
 
@@ -10,7 +10,7 @@ To compile using Linux Command Line Interface:
 1. First get the folders:
    * ../../algorithms
    * ../../lib_std
-   * ../../libmfet
+   * ../../librfet
    * ../../librodt
 
 2. Open the Command Line Interface.
