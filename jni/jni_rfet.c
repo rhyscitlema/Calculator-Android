@@ -22,7 +22,7 @@
 
 static wchar* buffer = NULL;
 
-void userinterface_clean () { buffer = str2_free(buffer); }
+void userinterface_clean () { buffer = wchar_free(buffer); }
 
 
 static const wchar* fromJString (JNIEnv* env, jstring jstr)
@@ -30,7 +30,7 @@ static const wchar* fromJString (JNIEnv* env, jstring jstr)
 	if(jstr==NULL) return NULL;
 	const jchar* str = (*env)->GetStringChars(env, jstr, NULL);
 	long i, len = (*env)->GetStringLength(env, jstr); // important step
-	buffer = str2_alloc(buffer, len);
+	buffer = wchar_alloc(buffer, len);
 	if(buffer)
 	{
 		for(i=0; i<len; i++) buffer[i] = str[i];
@@ -106,7 +106,7 @@ jstring Java_jni_RFET_getContainerText ( JNIEnv* env, jobject thiz, jlong rfet )
 
 jstring Java_jni_RFET_getResultString ( JNIEnv* env, jobject thiz, jlong rfet )
 {
-	value v = VstToStr(vnext(stack), PUT_NEWLINE|0, -1, -1);
+	value v = VstToStr(vnext(stack), TOSTR_NEWLINE);
 	return toJString(env, getStr2(vGetPrev(v)));
 }
 
@@ -163,21 +163,31 @@ void userinterface_set_text (enum UI_ITEM ui_item, const wchar* text)
 }
 
 
-void wait_for_user_first   (const wchar* title, const wchar* message)
+void user_alert   (const wchar* title, const wchar* message)
 {
 	JNIEnv *env = g_env;
 	jclass clazz = (*env)->FindClass(env, CLAZZ_NAME);
-	jmethodID method = (*env)->GetStaticMethodID(env, clazz, "wait_for_user_first", "(Ljava/lang/String;Ljava/lang/String;)V");
+	jmethodID method = (*env)->GetStaticMethodID(env, clazz, "user_alert", "(Ljava/lang/String;Ljava/lang/String;)V");
 	(*env)->CallStaticVoidMethod(env, clazz, method, toJString(env, title), toJString(env, message));
 }
 
-bool wait_for_confirmation (const wchar* title, const wchar* message)
+bool user_confirm (const wchar* title, const wchar* message)
 {
 	JNIEnv *env = g_env;
 	jclass clazz = (*env)->FindClass(env, CLAZZ_NAME);
-	jmethodID method = (*env)->GetStaticMethodID(env, clazz, "wait_for_confirmation", "(Ljava/lang/String;Ljava/lang/String;)Z");
+	jmethodID method = (*env)->GetStaticMethodID(env, clazz, "user_confirm", "(Ljava/lang/String;Ljava/lang/String;)Z");
 	return (*env)->CallStaticBooleanMethod(env, clazz, method, toJString(env, title), toJString(env, message));
 }
+
+const wchar* user_prompt (const wchar* title, const wchar* message, const wchar* entry)
+{
+	buffer = wchar_alloc (buffer, 10000);
+	strcpy22(buffer, entry);
+	return buffer;
+}
+
+
+bool setMenuItemTextOfConvertText (int item, const wchar* text) { return false; }
 
 
 void timer_pause_do ()

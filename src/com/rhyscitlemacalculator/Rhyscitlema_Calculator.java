@@ -152,7 +152,7 @@ public class Rhyscitlema_Calculator extends Activity
 	}
 
 
-	public static void wait_for_user_first (String title, String message)
+	public static void user_alert (String title, String message)
 	{
 		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 		alertDialog.setTitle(title);
@@ -164,7 +164,7 @@ public class Rhyscitlema_Calculator extends Activity
 	}
 
 	static boolean response;
-	public static boolean wait_for_confirmation (String title, String message)
+	public static boolean user_confirm (String title, String message)
 	{
 		// http://stackoverflow.com/a/10358260
 		// make a handler that throws a runtime exception when a message is received
