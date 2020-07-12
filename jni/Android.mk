@@ -43,7 +43,7 @@ LOCAL_SRC_FILES += $(FOLDER)librodt/tools.c
 LOCAL_SRC_FILES += $(FOLDER)librodt/userinterface_.c
 LOCAL_SRC_FILES += $(FOLDER)librodt/outsider.c
 
-LOCAL_SRC_FILES += $(FOLDER)algorithms/avl.c
+LOCAL_SRC_FILES += $(FOLDER)algorithms/tree.c
 LOCAL_SRC_FILES += $(FOLDER)algorithms/list.c
 LOCAL_SRC_FILES += $(FOLDER)algorithms/heap.c
 LOCAL_SRC_FILES += $(FOLDER)algorithms/graph.c
